@@ -30,14 +30,17 @@ public class EncodingFilter extends MyFilter{
         @Override
         public String getParameter(String name) {
             String value = super.getParameter(name);
-            if ("GET".equals(super.getMethod())){
-                try {
-                    value=new String(value.getBytes("ISO-8859-1"),"utf-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+            if (value != null) {
+                if ("GET".equals(super.getMethod())) {
+                    try {
+                        value = new String(value.getBytes("ISO-8859-1"), "utf-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                 }
+                return value;
             }
-            return value;
+            return null;
         }
     }
     }
