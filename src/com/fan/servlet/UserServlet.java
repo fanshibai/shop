@@ -4,6 +4,7 @@ import com.fan.entity.Page;
 import com.fan.entity.User;
 import com.fan.service.IUserService;
 import com.fan.service.impl.UserServiceImpl;
+import com.fan.untils.ServletUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -41,19 +42,19 @@ public class UserServlet extends HttpServlet {
 
     private void toBatchDel(HttpServletRequest req, HttpServletResponse resp) {
         String[] ids = req.getParameterValues("ids[]");
-        result= userService.deleteBatchUsers(ids);
+        result= userService.deleteBatchObjects(ids);
         commonsAction(req,resp,result);
     }
 
     private void toAddUser(HttpServletRequest req, HttpServletResponse resp) {
-        User user = setEntity(req);
-        result = userService.addUser(user);
+        User user = ServletUtils.setEntity(req);
+        result = userService.addObject(user);
         commonsAction(req,resp,result);
     }
 
     private void toGetUser(HttpServletRequest req, HttpServletResponse resp) {
         String id = req.getParameter("id");
-        User user = userService.getUserById(Integer.parseInt(id));
+        User user = userService.getObjectById(Integer.parseInt(id));
         req.setAttribute("user",user);
         try {
             req.getRequestDispatcher("back/user/updateuser.jsp").forward(req,resp);
@@ -65,14 +66,14 @@ public class UserServlet extends HttpServlet {
     }
 
     private void toUpdateUser(HttpServletRequest req, HttpServletResponse resp) {
-        User user = setEntity(req);
-        result = userService.updateUser(user);
+        User user = ServletUtils.setEntity(req);
+        result = userService.updateObject(user);
         commonsAction(req,resp,result);
     }
 
     private void toDelete(HttpServletRequest req, HttpServletResponse resp) {
         String id = req.getParameter("id");
-        result = userService.deleteUser(Integer.parseInt(id));
+        result = userService.deleteObject(Integer.parseInt(id));
         commonsAction(req,resp,result);
     }
 
@@ -93,18 +94,7 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req,resp);
     }
-    private User setEntity(HttpServletRequest req){
-        String id = req.getParameter("id");
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
-        String phone = req.getParameter("phone");
-        String email = req.getParameter("email");
-        String is_role = req.getParameter("is_role");
-        if(id!=null){
-            return new User(Integer.parseInt(id),username,password,phone,email,Integer.parseInt(is_role));
-        }
-        return new User(username,password,phone,email,Integer.parseInt(is_role));
-    }
+
     private void commonsAction(HttpServletRequest req, HttpServletResponse resp,Integer result){
         if(result>0){
             getPage(req,resp);

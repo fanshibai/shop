@@ -38,19 +38,16 @@ $(function(){
 
 <body style="background:#f0f9fd;">
 	<div class="lefttop"><span></span>通讯录</div>
-    
-    <dl class="leftmenu">
-        
     <dd>
     <div class="title">
-    <span><img src="images/leftico01.png" /></span>管理信息
+    <span><cite></cite><img src="images/leftico01.png" /></span>管理信息
     </div>
     	<ul class="menuson">
         
-        <li class="active"><cite></cite><a href="" target="rightFrame">商品类别管理</a><i></i></li>
-        <li ><cite></cite><a href="UserServlet?action=getPage" target="rightFrame" >用户管理</a><i></i></li>
-        <li ><cite></cite><a href="" target="rightFrame">商品管理</a><i></i></li>
-        <li ><cite></cite><a href="" target="rightFrame">订单管理</a><i></i></li>
+        <li class="active"><cite></cite><a href="GoodsTypeServlet?action=getPage" target="rightFrame">商品类别管理</a></li>
+        <li ><cite></cite><a href="UserServlet?action=getPage" target="rightFrame" >用户管理</a></li>
+        <li ><cite></cite><a href="" target="rightFrame">商品管理</a></li>
+        <li ><cite></cite><a href="" target="rightFrame">订单管理</a></li>
         </ul>    
     </dd>
 </body>

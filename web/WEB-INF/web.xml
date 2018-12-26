@@ -18,5 +18,12 @@
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/UserServlet</url-pattern>
+    </servlet-mapping> <servlet>
+        <servlet-name>GoodsTypeServlet</servlet-name>
+        <servlet-class>com.fan.servlet.GoodsTypeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GoodsTypeServlet</servlet-name>
+        <url-pattern>/GoodsTypeServlet</url-pattern>
     </servlet-mapping>
 </web-app>
