@@ -9,7 +9,7 @@ public class TestUserServiceImpl {
     private IUserService userService=new UserServiceImpl();
     @Test
     public void TestGetPage(){
-        Page page = userService.getPage("1");
+        Page page = userService.getPage("1","UserServlet");
         System.out.println(page);
     }
 }

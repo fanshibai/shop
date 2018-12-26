@@ -2,7 +2,6 @@ package com.fan.servlet;
 
 import com.alibaba.fastjson.JSON;
 import com.fan.entity.GoodsType;
-import com.fan.entity.Page;
 import com.fan.service.IGoodsTypeService;
 import com.fan.service.impl.GoodsTypeServiceImpl;
 import com.fan.untils.ServletUtils;
@@ -16,9 +15,10 @@ import java.util.List;
 
 public class GoodsTypeServlet extends HttpServlet {
     private IGoodsTypeService goodsTypeService=new GoodsTypeServiceImpl();
+    String servletName="GoodsTypeServlet";
     Integer result=0;
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp){
         String action = req.getParameter("action");
         switch (action){
             case "getPage":
@@ -48,38 +48,19 @@ public class GoodsTypeServlet extends HttpServlet {
     private void toBatchDel(HttpServletRequest req, HttpServletResponse resp) {
         String[] ids = req.getParameterValues("ids[]");
         result = goodsTypeService.deleteBatchObjects(ids);
-        try {
-            ServletUtils.commonsAction(req,resp,result);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ServletUtils.commonsAction(req,resp,result,servletName,goodsTypeService);
     }
 
     private void toAddGoodsType(HttpServletRequest req, HttpServletResponse resp) {
         GoodsType goodsType = ServletUtils.setGoodsTypeEntity(req);
         result = goodsTypeService.addObject(goodsType);
-        try {
-            ServletUtils.commonsAction(req,resp,result);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ServletUtils.commonsAction(req,resp,result,servletName,goodsTypeService);
     }
 
     private void toUpdateGoodsType(HttpServletRequest req, HttpServletResponse resp) {
         GoodsType goodsType = ServletUtils.setGoodsTypeEntity(req);
         result = goodsTypeService.updateObject(goodsType);
-        try {
-            ServletUtils.commonsAction(req,resp,result);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        ServletUtils.commonsAction(req,resp,result,servletName,goodsTypeService);
     }
 
     private void toGoodsTypeByParentIdList(HttpServletRequest req, HttpServletResponse resp) {
@@ -108,26 +89,12 @@ public class GoodsTypeServlet extends HttpServlet {
     private void toDelete(HttpServletRequest req, HttpServletResponse resp) {
         String id = req.getParameter("id");
         result = goodsTypeService.deleteObject(Integer.parseInt(id));
-        try {
-            ServletUtils.commonsAction(req,resp,result);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ServletUtils.commonsAction(req,resp,result,servletName,goodsTypeService);
+
     }
 
     private void getPage(HttpServletRequest req, HttpServletResponse resp) {
-        String currentPage = req.getParameter("currentPage");
-        Page page=goodsTypeService.getPage(currentPage);
-        req.setAttribute("page",page);
-        try {
-            req.getRequestDispatcher("back/goodstype/goodstype.jsp").forward(req,resp);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ServletUtils.commonsAction(req,resp,1,servletName,goodsTypeService);
     }
 
     @Override

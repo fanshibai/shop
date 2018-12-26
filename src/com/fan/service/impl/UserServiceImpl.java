@@ -42,14 +42,10 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Page getPage(String current) {
-        Page page=new Page();
-        if (current!=null){
-            page.setCurrentPage(Integer.parseInt(current));
-        }
-        page.setTotalCount(userDao.getTotalCount());
-        page.setList(userDao.getListObject((page.getCurrentPage()-1)*page.getPageSize(),page.getPageSize()));
-        page.setUrl("UserServlet?action=getPage");
+    public Page getPage(String current,String servletName) {
+        System.out.println(1);
+        PageService pageService = new PageService();
+        Page page = pageService.getPage(current, userDao,servletName);
         return page;
     }
 

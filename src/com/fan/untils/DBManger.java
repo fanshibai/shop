@@ -1,6 +1,5 @@
 package com.fan.untils;
 
-import com.fan.entity.User;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
