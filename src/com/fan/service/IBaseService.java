@@ -11,6 +11,6 @@ public interface IBaseService<T> {
     public List<T> getListObject();
     public T getObjectById(Integer id);
     public List<T> getListObject(Integer index,Integer pageSize);
-    public Page getPage(String current);
+    public Page getPage(String current,String servletName);
     public Integer deleteBatchObjects(String []ids);
 }

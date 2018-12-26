@@ -1,6 +1,5 @@
 package com.fan.servlet;
 
-import com.fan.entity.Page;
 import com.fan.entity.User;
 import com.fan.service.IUserService;
 import com.fan.service.impl.UserServiceImpl;
@@ -14,9 +13,10 @@ import java.io.IOException;
 
 public class UserServlet extends HttpServlet {
     private IUserService userService=new UserServiceImpl();
+    String servletName="UserServlet";
     Integer result=0;
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp){
         String action = req.getParameter("action");
         switch (action){
             case "getPage":
@@ -43,13 +43,13 @@ public class UserServlet extends HttpServlet {
     private void toBatchDel(HttpServletRequest req, HttpServletResponse resp) {
         String[] ids = req.getParameterValues("ids[]");
         result= userService.deleteBatchObjects(ids);
-        commonsAction(req,resp,result);
+        ServletUtils.commonsAction(req,resp,result,servletName,userService);
     }
 
     private void toAddUser(HttpServletRequest req, HttpServletResponse resp) {
         User user = ServletUtils.setEntity(req);
         result = userService.addObject(user);
-        commonsAction(req,resp,result);
+        ServletUtils.commonsAction(req,resp,result,servletName,userService);
     }
 
     private void toGetUser(HttpServletRequest req, HttpServletResponse resp) {
@@ -68,43 +68,21 @@ public class UserServlet extends HttpServlet {
     private void toUpdateUser(HttpServletRequest req, HttpServletResponse resp) {
         User user = ServletUtils.setEntity(req);
         result = userService.updateObject(user);
-        commonsAction(req,resp,result);
+        ServletUtils.commonsAction(req,resp,result,servletName,userService);
     }
 
     private void toDelete(HttpServletRequest req, HttpServletResponse resp) {
         String id = req.getParameter("id");
         result = userService.deleteObject(Integer.parseInt(id));
-        commonsAction(req,resp,result);
+        ServletUtils.commonsAction(req,resp,result,servletName,userService);
     }
 
     private void getPage(HttpServletRequest req, HttpServletResponse resp) {
-        String currentPage = req.getParameter("currentPage");
-        Page page=userService.getPage(currentPage);
-        req.setAttribute("page",page);
-        try {
-            req.getRequestDispatcher("back/user/userinfo.jsp").forward(req,resp);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ServletUtils.commonsAction(req,resp,1,servletName,userService);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req,resp);
-    }
-
-    private void commonsAction(HttpServletRequest req, HttpServletResponse resp,Integer result){
-        if(result>0){
-            getPage(req,resp);
-        }else {
-            resp.setContentType("text/html;charset=utf-8");
-            try {
-                resp.getWriter().write("<script> alert('操作失败');location.href='UserServlet?action=getPage'</script>");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

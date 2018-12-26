@@ -42,14 +42,9 @@ public class GoodsTypeServiceImpl implements IGoodsTypeService {
     }
 
     @Override
-    public Page getPage(String current) {
-        Page page=new Page();
-        if (current!=null){
-            page.setCurrentPage(Integer.parseInt(current));
-        }
-        page.setTotalCount(goodsTypeDao.getTotalCount());
-        page.setList(goodsTypeDao.getListObject((page.getCurrentPage()-1)*page.getPageSize(),page.getPageSize()));
-        page.setUrl("GoodsTypeServlet?action=getPage");
+    public Page getPage(String current,String servletName) {
+        PageService pageService = new PageService();
+        Page page = pageService.getPage(current, goodsTypeDao,servletName);
         return page;
     }
 
