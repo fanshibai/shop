@@ -5,13 +5,28 @@
 	String basePath = request.getScheme()+"://" +request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <base href="<%=basePath%>"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
 <link href="css/backstyle.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
+	<script type="text/javascript">
+		$(function () {
+			$.post("GoodsTypeServlet?action=goodsTypeByParentIdList",function (data) {
+				for (var i = 0;i < data.length;i++){
+					//创建option对象
+					var option = document.createElement("option");
+					option.value = data[i].id;
+					option.text = data[i].name;
+					//把option添加到select标签中
+					$("#parent_id").append(option);
+				}
+			},"JSON")
+		})
+	</script>
 </head>
 
 <body>
@@ -27,16 +42,15 @@
     <div class="formbody">
     
     <div class="formtitle"><span>添加商品类别信息</span></div>
-    <form >
+    <form method="post" action="GoodsTypeServlet?action=addGoodsType">
     	<ul class="forminfo">
 	    <li><label>商品类别名称</label><input name="name" type="text" class="dfinput" /><i>标题不能超过30个字符</i></li>
 	    <li><label>父类别</label>
-	    		<select name="parentId">
+	    		<select name="parent_id" id="parent_id">
 	    			<option value="0">无</option>
-    				<option value="2" >xxxx</option>	
 	    		</select>
-	    </i></li>
-	    <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="确认保存"/></li>
+	    </li>
+	    <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="确认添加"/></li>
 	    </ul>
     
     </form>

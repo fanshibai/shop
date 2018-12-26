@@ -50,7 +50,11 @@ public class DBManger {
                 for (Field field : fields) {
                     field.setAccessible(true);
                     name = field.getName();
-                    value = rs.getObject(name);
+                    try {
+                        value = rs.getObject(name);
+                    }catch (SQLException e){
+                         value=null;
+                    }
                     field.set(cls,value);
                 }
                 list.add(cls);

@@ -12,33 +12,33 @@ public class UserServiceImpl implements IUserService {
     private IUserDao userDao=new UserDaoImpl();
 
     @Override
-    public Integer addUser(User user) {
-        return userDao.addUser(user);
+    public Integer addObject(User user) {
+        return userDao.addObject(user);
     }
 
     @Override
-    public Integer deleteUser(Integer id) {
-        return userDao.deleteUser(id);
+    public Integer deleteObject(Integer id) {
+        return userDao.deleteObject(id);
     }
 
     @Override
-    public Integer updateUser(User user) {
-        return userDao.updateUser(user);
+    public Integer updateObject(User user) {
+        return userDao.updateObject(user);
     }
 
     @Override
-    public List<User> getListUser() {
-        return userDao.getListUser();
+    public List<User> getListObject() {
+        return userDao.getListObject();
     }
 
     @Override
-    public User getUserById(Integer id) {
-        return userDao.getUserById(id);
+    public User getObjectById(Integer id) {
+        return userDao.getObjectById(id);
     }
 
     @Override
-    public List<User> getListUser(Integer index, Integer pageSize) {
-        return userDao.getListUser(index,pageSize);
+    public List<User> getListObject(Integer index, Integer pageSize) {
+        return userDao.getListObject(index,pageSize);
     }
 
     @Override
@@ -48,13 +48,13 @@ public class UserServiceImpl implements IUserService {
             page.setCurrentPage(Integer.parseInt(current));
         }
         page.setTotalCount(userDao.getTotalCount());
-        page.setList(userDao.getListUser((page.getCurrentPage()-1)*page.getPageSize(),page.getPageSize()));
+        page.setList(userDao.getListObject((page.getCurrentPage()-1)*page.getPageSize(),page.getPageSize()));
         page.setUrl("UserServlet?action=getPage");
         return page;
     }
 
     @Override
-    public Integer deleteBatchUsers(String[] ids) {
-        return userDao.deleteBatchUsers(ids);
+    public Integer deleteBatchObjects(String[] ids) {
+        return userDao.deleteBatchObjects(ids);
     }
 }

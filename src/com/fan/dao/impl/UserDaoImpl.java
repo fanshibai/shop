@@ -8,31 +8,31 @@ import java.util.List;
 
 public class UserDaoImpl implements IUserDao {
     @Override
-    public Integer addUser(User user) {
+    public Integer addObject(User user) {
         String sql="insert into user(username,password,phone,email,is_role) values(?,?,?,?,?)";
         return DBManger.commonsUpdate(sql,user.getUsername(),user.getPassword(),user.getPhone(),user.getEmail(),user.getIs_role());
     }
 
     @Override
-    public Integer deleteUser(Integer id) {
+    public Integer deleteObject(Integer id) {
         String sql="update user set flag=0 where id=?";
         return DBManger.commonsUpdate(sql,id);
     }
 
     @Override
-    public Integer updateUser(User user) {
+    public Integer updateObject(User user) {
         String sql="update user set username=?,password=?,phone=?,email=?,is_role=? where id=?";
         return DBManger.commonsUpdate(sql,user.getUsername(),user.getPassword(),user.getPhone(),user.getEmail(),user.getIs_role(),user.getId());
     }
 
     @Override
-    public List<User> getListUser() {
+    public List<User> getListObject() {
         String sql="select * from user where flag=1";
         return DBManger.commonsListUser(sql,User.class);
     }
 
     @Override
-    public User getUserById(Integer id) {
+    public User getObjectById(Integer id) {
         String sql="select * from user where id=?";
         List<User> list= DBManger.commonsListUser(sql, User.class, id);
         if (!list.isEmpty()){
@@ -48,13 +48,13 @@ public class UserDaoImpl implements IUserDao {
     }
 
     @Override
-    public List<User> getListUser(Integer index, Integer pageSize) {
+    public List<User> getListObject(Integer index, Integer pageSize) {
         String sql="select * from user where flag=1 limit ?,?";
         return DBManger.commonsListUser(sql,User.class,index,pageSize);
     }
 
     @Override
-    public Integer deleteBatchUsers(String[] ids) {
+    public Integer deleteBatchObjects(String[] ids) {
         StringBuilder sb=new StringBuilder("update user set flag=0 where id in (");
         for (int i=0;i<ids.length;i++){
             if(i==ids.length-1){
