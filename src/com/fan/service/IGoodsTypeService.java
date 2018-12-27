@@ -5,5 +5,5 @@ import com.fan.entity.GoodsType;
 import java.util.List;
 
 public interface IGoodsTypeService extends IBaseService<GoodsType> {
-    List<GoodsType> getGoodsTypeByParentIdList();
+    List<GoodsType> getGoodsTypeByParentIdList(Integer parent_id);
 }

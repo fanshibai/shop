@@ -15,7 +15,7 @@
 	<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 	<script type="text/javascript">
 		$(function () {
-			$.post("GoodsTypeServlet?action=goodsTypeByParentIdList",function (data) {
+			$.post("GoodsTypeServlet?action=goodsTypeByParentIdList&parent_id=0",function (data) {
 				for (var i = 0;i < data.length;i++){
 					//创建option对象
 					var option = document.createElement("option");

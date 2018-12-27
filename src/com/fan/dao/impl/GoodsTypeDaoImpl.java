@@ -68,8 +68,8 @@ public class GoodsTypeDaoImpl implements IGoodsTypeDao {
     }
 
     @Override
-    public List<GoodsType> getGoodsTypeByParentIdList() {
-        sql="select id,name from t_goods_type where flag=1 and parent_id=0";
-        return DBManger.commonsListUser(sql,GoodsType.class);
+    public List<GoodsType> getGoodsTypeByParentIdList(Integer parent_id) {
+        sql="select id,name from t_goods_type where flag=1 and parent_id=?";
+        return DBManger.commonsListUser(sql,GoodsType.class,parent_id);
     }
 }

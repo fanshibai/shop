@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Page {
     private Integer currentPage=1;
-    private Integer pageSize=3;
+    private Integer pageSize=6;
     private Integer totalCount;
     private Integer pageCount;
     private List<?> list;

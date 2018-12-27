@@ -64,7 +64,8 @@ public class GoodsTypeServlet extends HttpServlet {
     }
 
     private void toGoodsTypeByParentIdList(HttpServletRequest req, HttpServletResponse resp) {
-        List<GoodsType> list = goodsTypeService.getGoodsTypeByParentIdList();
+        String parent_id = req.getParameter("parent_id");
+        List<GoodsType> list = goodsTypeService.getGoodsTypeByParentIdList(Integer.parseInt(parent_id));
         String json= JSON.toJSONString(list);
         try {
             resp.getWriter().write(json);
