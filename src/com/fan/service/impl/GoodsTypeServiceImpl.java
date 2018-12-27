@@ -54,7 +54,7 @@ public class GoodsTypeServiceImpl implements IGoodsTypeService {
     }
 
     @Override
-    public List<GoodsType> getGoodsTypeByParentIdList() {
-        return goodsTypeDao.getGoodsTypeByParentIdList();
+    public List<GoodsType> getGoodsTypeByParentIdList(Integer parent_id) {
+        return goodsTypeDao.getGoodsTypeByParentIdList(parent_id);
     }
 }
