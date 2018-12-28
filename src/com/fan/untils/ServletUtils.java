@@ -1,9 +1,6 @@
 package com.fan.untils;
 
-import com.fan.entity.GoodsInfo;
-import com.fan.entity.GoodsType;
-import com.fan.entity.Page;
-import com.fan.entity.User;
+import com.fan.entity.*;
 import com.fan.service.IBaseService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.fileupload.FileItem;
@@ -26,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ServletUtils extends HttpServlet {
-
-    public static void commonsAction(HttpServletRequest req, HttpServletResponse resp, Integer result, String servletName, IBaseService baseService){
+    //通用获取分页页面
+    public static void commonsAction(HttpServletRequest req, HttpServletResponse resp,Integer result, String servletName, IBaseService baseService){
         if(result>0){
             String currentPage = req.getParameter("currentPage");
             Page page=baseService.getPage(currentPage,servletName);
@@ -74,21 +71,31 @@ public class ServletUtils extends HttpServlet {
         String phone = req.getParameter("phone");
         String email = req.getParameter("email");
         String is_role = req.getParameter("is_role");
-        if(id!=null){
+        if(id!=null){//修改对象
             return new User(Integer.parseInt(id),username,password,phone,email,Integer.parseInt(is_role));
-        }else {
+        }else {//添加对象
             return new User(username, password, phone, email, Integer.parseInt(is_role));
         }
     }
+
     public static GoodsType setGoodsTypeEntity(HttpServletRequest req){
         String id = req.getParameter("id");
         String name = req.getParameter("name");
         String parent_id = req.getParameter("parent_id");
-        if(id!=null){
+        if(id!=null){//修改对象
             return new GoodsType(Integer.parseInt(id),name,Integer.parseInt(parent_id));
-        }else {
+        }else {//添加对象
             return new GoodsType(name, Integer.parseInt(parent_id));
         }
+    }
+    public static Order setOrderEntity(HttpServletRequest req,Double totalMoney){
+        String express = req.getParameter("express");
+        String shouhuoren = req.getParameter("shouhuoren");
+        String phone = req.getParameter("phone");
+        String address = req.getParameter("address");
+        String bank = req.getParameter("bank");
+        User user = (User) req.getSession().getAttribute("customer");
+        return new Order(express,bank,totalMoney,user.getId(),shouhuoren,phone,address);
     }
     public static GoodsInfo setGoodsInfoEntity(HttpServletRequest req){
         String imagesPath =req.getServletContext().getRealPath("images");
@@ -101,8 +108,8 @@ public class ServletUtils extends HttpServlet {
             for (FileItem item:list){
                 if(item.isFormField()){
                     String name = item.getFieldName();
-                    String value = item.getString();
-                    value=new String(value.getBytes("iso-8859-1"),"utf-8");
+                    String value = item.getString("utf-8");
+//                    value=new String(value.getBytes("iso-8859-1"),"utf-8");
                     map.put(name,value);
                 }else {
                     //图片名
@@ -134,4 +141,5 @@ public class ServletUtils extends HttpServlet {
 
         return goodsInfo;
     }
+
 }

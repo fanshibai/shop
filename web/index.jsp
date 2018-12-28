@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 	<head>
@@ -59,12 +59,12 @@
 							<div class="area clearfix">
 								<div class="category-content" id="guide_2">
 								<c:forEach items="${gtList}" var="big">
-								<c:if test="${big.gtype_parentid eq '0'}">
+								<c:if test="${big.parent_id eq '0'}">
 									<div class="category">
 										<ul class="category-list" id="js_climit_li">
 											<li class="appliance js_toggle relative first">
 												<div class="category-info">
-													<h3 class="category-name b-category-name"><i><img src="images/${big.gtype_pic}"></i><a class="ml-22" title="点心">${big.gtype_name}</a></h3>
+													<h3 class="category-name b-category-name"><i><img src="images/${big.pic}"></i><a class="ml-22" title="点心">${big.name}</a></h3>
 													<em>&gt;</em></div>
 												<div class="menu-item menu-in top">
 													<div class="area-in">
@@ -72,12 +72,12 @@
 															<div class="menu-srot">									
 																<div class="sort-side">	
 																<c:forEach items="${gtList}" var="small">	
-																	<c:if test="${big.id eq small.gtype_parentid}">	
+																	<c:if test="${big.id eq small.parent_id}">
 																	<dl class="dl-sort">															
-																		<dt><span title="${small.gtype_name}">${small.gtype_name}</span></dt>
+																		<dt><span title="${small.name}">${small.name}</span></dt>
 																		<c:forEach items="${giList}" var="info">
 																		<c:if test="${small.id eq info.goods_fatherid}">													
-																		<dd><a title="${info.goods_name}" href="GoodsInfoServlet?method=queryById&id=${info.id}"><span>${info.goods_name}</span></a></dd>	
+																		<dd><a title="${info.goods_name}" href="ShopCartServlet?action=getGoodsInfo&id=${info.id}"><span>${info.goods_name}</span></a></dd>
 																		</c:if>	
 																		</c:forEach>	
 																	</dl>
@@ -220,7 +220,7 @@
 					<!--今日推荐 -->
 
 					<div class="am-g am-g-fixed recommendation">
-						<div class="clock am-u-sm-3" ">
+						<div class="clock am-u-sm-3">
 							<img src="images/2016.png "></img>
 							<p>今日<br>推荐</p>
 						</div>
@@ -296,13 +296,13 @@
 					<div class="clear "></div>
 
 					<c:forEach items="${gtList}" var="big">
-					<c:if test="${big.gtype_parentid eq '0'}">
+					<c:if test="${big. parent_id eq '0'}">
                     <div id="f1">
 					<!--甜点-->
 					
 					<div class="am-container ">
 						<div class="shopTitle ">
-							<h4>${big.gtype_name}</h4>
+							<h4>${big.name}</h4>
 							<div class="today-brands ">						
 								<a href="# "></a>
 							</div>
@@ -417,13 +417,13 @@
 
 					</div>
 					<div id="shopCart " class="item ">
-						<a href="# ">
+						<a href="ShopCartServlet?action=toShopCart ">
 							<span class="message "></span>
 						</a>
 						<p>
 							购物车
 						</p>
-						<p class="cart_num ">0</p>
+						<p class="cart_num ">${sessionScope.shopCart.count}</p>
 					</div>
 					<div id="asset " class="item ">
 						<a href="# ">
@@ -551,10 +551,10 @@
 				</div>
 			</div>
 		</div>
+		<script type="text/javascript" src="basic/js/quick_links.js "></script>
 		<script>
-			window.jQuery || document.write('<script src="basic/js/jquery.min.js "><\/script>');
+			window.jQuery || document.write('<script src="basic/js/jquery.min.js"><script>');
 		</script>
-		<script type="text/javascript " src="basic/js/quick_links.js "></script>
 	</body>
 
 </html>

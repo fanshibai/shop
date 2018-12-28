@@ -3,6 +3,7 @@ package com.fan.dao.impl;
 import com.fan.dao.IUserDao;
 import com.fan.entity.User;
 import com.fan.untils.DBManger;
+import com.fan.untils.DBUtils;
 
 import java.util.List;
 
@@ -64,5 +65,15 @@ public class UserDaoImpl implements IUserDao {
             }
         }
         return DBManger.commonsUpdate(sb.toString(),ids);
+    }
+
+    @Override
+    public User backLogin(String username, String password) {
+        String sql="select * from user where username=? and password=? and flag=1";
+        List<User> list = DBManger.commonsListUser(sql, User.class, username, password);
+        if (!list.isEmpty()){
+            return list.get(0);
+        }
+        return null;
     }
 }

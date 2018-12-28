@@ -39,19 +39,19 @@ public class GoodsInfoServlet extends HttpServlet {
                 break;
         }
     }
-
+    //增加
     private void toAddGoodsInfo(HttpServletRequest req, HttpServletResponse resp) {
         GoodsInfo goodsInfo = ServletUtils.setGoodsInfoEntity(req);
         result = goodsInfoService.addObject(goodsInfo);
         ServletUtils.commonsAction(req,resp,result,servletName,goodsInfoService);
     }
-
+    //修改
     private void toUpdateGoodsInfo(HttpServletRequest req, HttpServletResponse resp) {
         GoodsInfo goodsInfo = ServletUtils.setGoodsInfoEntity(req);
         result = goodsInfoService.updateObject(goodsInfo);
         ServletUtils.commonsAction(req,resp,result,servletName,goodsInfoService);
     }
-
+    //tongguoid获取对象（回显）
     private void toGetGoodsInfo(HttpServletRequest req, HttpServletResponse resp) {
         String id = req.getParameter("id");
         GoodsInfo goodsInfo = goodsInfoService.getObjectById(Integer.parseInt(id.trim()));
@@ -64,19 +64,19 @@ public class GoodsInfoServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
-
+    //多选删除
     private void toBatchDel(HttpServletRequest req, HttpServletResponse resp) {
         String[] ids = req.getParameterValues("ids[]");
         result = goodsInfoService.deleteBatchObjects(ids);
         ServletUtils.commonsAction(req,resp,result,servletName,goodsInfoService);
     }
-
+    //删除
     private void toDelete(HttpServletRequest req, HttpServletResponse resp) {
         String id = req.getParameter("id");
         result = goodsInfoService.deleteObject(Integer.parseInt(id));
         ServletUtils.commonsAction(req,resp,result,servletName,goodsInfoService);
     }
-
+    //分页
     private void toGetPage(HttpServletRequest req, HttpServletResponse resp) {
         ServletUtils.commonsAction(req,resp,1,servletName,goodsInfoService);
     }
