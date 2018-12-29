@@ -17,7 +17,11 @@
 <link rel="stylesheet" href="AmazeUI-2.4.2/assets/css/amazeui.css" />
 <link href="css/dlstyle.css" rel="stylesheet" type="text/css">
 </head>
+<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 <script type="text/javascript">
+	function goSubmit() {
+		$("#login_from").submit();
+	}
 </script>
 <body>
 
@@ -37,10 +41,10 @@
 				<div class="clear"></div>
 
 				<div class="login-form">
-					<form  method="post" id ="login_from">
+					<form  method="post" id ="login_from" action="UserServlet?action=login">
 						<div class="user-name">
-							<label for="user"><i class="am-icon-user"></i></label> <input
-								type="text" name="name" id="userName" placeholder="邮箱/手机/用户名">
+							<label><i class="am-icon-user"></i></label>
+							<input type="text" name="username" id="userName" placeholder="邮箱/手机/用户名">
 						</div>
 						<div class="user-pass">
 							<label for="password"><i class="am-icon-lock"></i></label> <input
@@ -54,9 +58,8 @@
 						type="checkbox">记住密码</label> <a href="#" class="am-fr">忘记密码</a> <a
 						href="register.jsp" class="zcnext am-fr am-btn-default">注册</a> <br />
 				</div>
-				<div class="am-cf">
-					<input type="submit" name="" value="登 录"
-						class="am-btn am-btn-primary am-btn-sm" >
+				<div class="am-cf" onclick="goSubmit()">
+					<input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm" >
 				</div>
 				<div class="partner">
 					<h3>合作账号</h3>

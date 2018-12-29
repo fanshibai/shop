@@ -66,7 +66,15 @@
 				$("#go").click(function(){
 					$("#form").submit();
 				})
-				
+
+				$("#checked_1").attr("class","user-addresslist defaultAddr");
+				$("#checked_1").find(".address-left").append("<ins class='deftip'>默认地址</ins>");
+				var shouhuoren = $("li[class='user-addresslist defaultAddr'] span[class='buy-user']").html();
+				var dianhua = $("li[class='user-addresslist defaultAddr'] span[class='buy-phone']").html();
+				var dizhi = $("li[class='user-addresslist defaultAddr'] span[class='buy--address-detail']").html();
+				$("#send").html(dizhi);
+				$("#person").html(shouhuoren);
+				$("#tel").html(dianhua);
 			})
 			
 		
@@ -88,21 +96,21 @@
 						</div>
 						<div class="clear"></div>
 						<ul class="addressChoose">
-							
+							<c:forEach var="address" items="${addressList}" >
 								<!-- 默认地址：class="user-addresslist defaultAddr" -->
-									<li class="user-addresslist defaultAddr">
+									<li class="user-addresslist" id="checked_${address.isdefault}">
 										<div class="address-left">
 											<div class="user DefaultAddr">
 												 <span class="buy-address-detail"></span>
-		                  						 <span class="buy-user">电话</span>
-												 <span class="buy-phone">123456789</span>
+		                  						 <span class="buy-user">${address.shouhuoren}</span>
+												 <span class="buy-phone">${address.phone}</span>
 											</div>
 												
 											<div class="default-address DefaultAddr">
 												<span class="buy-line-title buy-line-title-type">收货地址：</span>
-												<span class="buy--address-detail">asdfdsafas</span>
+												<span class="buy--address-detail">${address.address}</span>
 											</div>
-												<ins class="deftip">默认地址</ins>
+												<%--<ins class="deftip">默认地址</ins>--%>
 										</div>
 										<div class="new-addr-btn">
 											<span class="new-addr-bar hidden">|</span>
@@ -111,6 +119,7 @@
 											<a href="javascript:void(0);" onclick="delClick(this);">删除</a>
 										</div>
 								</li>
+							</c:forEach>
 						</ul>
 
 						<div class="clear"></div>
@@ -166,7 +175,7 @@
 							</div>
 							<div class="clear"></div>
 							
-					<c:forEach items="${shop_cat.list}" var="good">
+					<c:forEach items="${sessionScope.shopCart.list}" var="infoDomain">
 							<!-- 购物车 -->
 							<tr class="item-list">
 								<div class="bundle  bundle-last">
@@ -177,11 +186,11 @@
 												<li class="td td-item">
 													<div class="item-pic">
 														<a href="#" class="J_MakePoint">
-															<img src="images/" style="width: 80px; height: 80px" class="itempic J_ItemImg"></a>
+															<img src="images/${infoDomain.goods_pic}" style="width: 80px; height: 80px" class="itempic J_ItemImg"></a>
 													</div>
 													<div class="item-info">
 														<div class="item-basic-info">
-															<a href="#" class="item-title J_MakePoint" data-point="tbcart.8.11">商品描述</a>
+															<a href="#" class="item-title J_MakePoint" data-point="tbcart.8.11">${infoDomain.goods_description}</a>
 														</div>
 													</div>
 												</li>						
@@ -189,10 +198,10 @@
 													<div class="item-price price-promo-promo">
 														<div class="price-content">
 															<div class="price-line">
-																<em class="price-original">商品价格</em>
+																<em class="price-original">${infoDomain.goods_price}</em>
 															</div>
 															<div class="price-line"> 
-																<em class="J_Price price-now" id="priceNow" tabindex="0">商品价格</em>
+																<em class="J_Price price-now" id="priceNow" tabindex="0">${infoDomain.goods_price_off}</em>
 															</div>
 														</div>
 													</div>
@@ -204,8 +213,7 @@
 														<span class="phone-title">购买数量</span>
 														<div class="sl">
 															<input class="min am-btn" name="" type="button" value="-" id="jian"/> 
-															<input class="text_box" id="count" type="text" value="" 
-													          style="width: 30px; text-align: center;"/> 
+															<input class="text_box" id="count" type="text" value="${infoDomain.count}" style="width: 30px; text-align: center;"/>
 													          <input class="add am-btn" name="" type="button" value="+"  id="jia"/>
 														 <input type="hidden"  value="goodsId">
 														</div>
@@ -214,7 +222,7 @@
 											</li>
 											<li class="td td-sum">
 												<div class="td-inner">
-													<em tabindex="0" class="J_ItemSum number" id="singlePrice"><fmt:formatNumber type="number" value="" maxFractionDigits="1"/></em>
+													<em tabindex="0" class="J_ItemSum number" id="singlePrice"><fmt:formatNumber type="number" value="${infoDomain.sum}" maxFractionDigits="1"/></em>
 												</div>
 											</li>
 											<li class="td td-oplist">
@@ -244,7 +252,7 @@
 									<div class="box">
 										<div tabindex="0" id="holyshit267" class="realPay"><em class="t">实付款：</em>
 											<span class="price g_price ">
-                                    <span>¥</span> <em class="style-large-bold-red " id="J_ActualFee">88888</em>
+                                    <span>¥</span> <em class="style-large-bold-red " id="J_ActualFee"><fmt:formatNumber value="${sessionScope.shopCart.sums+10}" maxFractionDigits="2"></fmt:formatNumber></em>
 											</span>
 										</div>
 
@@ -270,7 +278,7 @@
 										<div class="go-btn-wrap">
 											<a id="go" class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</a>
 										</div>
-										<form action="" method="post" id="form">
+										<form action="ShopCartServlet?action=makeOrder" method="post" id="form">
 											<input type="hidden" name="shouhuoren" value="" id="buy_user"/>
 											<input type="hidden" name="phone" value="" id="phone"/>
 											<input type="hidden" name="address" value="" id="address"/>

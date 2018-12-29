@@ -26,9 +26,62 @@
 <script type="text/javascript" src="js/jquery.imagezoom.min.js"></script>
 <script type="text/javascript" src="js/jquery.flexslider.js"></script>
 <script type="text/javascript" src="js/list.js"></script>
-<script type="text/javascript">
+	<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
+	<script type="text/javascript">
+		$(function () {
+			//1.获取库存
+			var max = ${goodsInfo.goods_stock};
 
-</script>
+			//2.添加的点击事件
+			$("#add").click(function () {
+				//获取当前输入框的value值
+				var value = $("#value").val();
+				//判断数量是否在合理的范围内
+				if(value < max){
+					//vlaue值为String类型,必须转换成int类型
+					$("#value").val(parseInt(value)+1);
+				}else{
+					$("#value").val(max);
+				}
+			})
+
+			//3.减少的点击事件
+			$("#min").click(function () {
+				//获取当前输入框的value值
+				var value = $("#value").val();
+				//判断数量是否在合理的范围内
+				if(value > 1){
+					//vlaue值为String类型,必须转换成int类型
+					$("#value").val(parseInt(value)-1);
+				}else{
+					$("#value").val(1);
+				}
+			})
+
+			//4.输入框的失去光标焦点事件
+			$("#value").blur(function () {
+				//获取当前数量
+				var value = $(this).val();
+				//判断数量是否在合理的范围内
+				if(value > max){
+					$(this).val(max);
+				}else if(value <1){
+					$(this).val(1);
+				}
+			})
+
+			//5.加入购物车的点击事件
+			$("#gotoShopCart").click(function () {
+				//1.获得商品id
+				var id = ${goodsInfo.id};
+				//2.获得商品购买数量
+				var count = $("#value").val();
+				$.post("ShopCartServlet?action=shopCart&id="+id+"&count="+count,function (data) {
+					location.reload();
+				})
+			})
+		})
+	</script>
 </head>
 
 <body>
@@ -110,7 +163,7 @@
 				<!--规格属性-->
 				
 				<div class="tb-detail-hd">
-					<h1>商品名称</h1><!--名称-->
+					<h1>${goodsInfo.goods_name}</h1><!--名称-->
 				</div>
 				<div class="tb-detail-list">
 					<!--价格-->
@@ -119,13 +172,13 @@
 						<li class="price iteminfo_price">
 							<dt>促销价</dt>
 							<dd>
-								<em>¥</em><b class="sys_item_price">12</b>
+								<em>¥</em><b class="sys_item_price">${goodsInfo.goods_price_off}</b>
 							</dd>
 						</li>
 						<li class="price iteminfo_mktprice">
 							<dt>原价</dt>
 							<dd>
-								<em>¥</em><b class="sys_item_mktprice">22</b>
+								<em>¥</em><b class="sys_item_mktprice">${goodsInfo.goods_price}</b>
 							</dd>
 						</li>
 						<div class="clear"></div>
@@ -175,18 +228,18 @@
 										<div class="theme-signin-left">
 
 
-											<div class="theme-options">
+											<div class="theme-options"></div>
 												<div class="cart-title number">数量</div>
 												<dd>
 													<input id="min" class="am-btn am-btn-default" name="" type="button" value="-" /> 
 													<input id="value" name="pic" type="text" value="1" style="width: 30px;" /> 
 													<input id="add" class="am-btn am-btn-default" name="" type="button" value="+" /> 
-													<span id="Stock" class="tb-hidden">库存
-													<span class="stock" id="stock">12</span>件
+													<span class="tb-hidden">库存
+													<span class="stock" id="stock">${goodsInfo.goods_stock}</span>件
 													</span>
 												</dd>
 
-											</div>
+
 											<div class="clear"></div>
 
 											<div class="btn-op">
@@ -200,7 +253,7 @@
 											</div>
 											<div class="text-info">
 												<span class="J_Price price-now">¥39.00</span> <span
-													id="Stock" class="tb-hidden">库存<span class="stock">1000</span>件
+													 class="tb-hidden">库存<span class="stock">1000</span>件
 												</span>
 											</div>
 										</div>
@@ -248,8 +301,8 @@
 						</div>
 					</li>
 					<li>
-						<div class="clearfix tb-btn tb-btn-basket theme-login">
-							<a id="LikBasket" title="加入购物车" href="#"><i></i>加入购物车</a>
+						<div class="clearfix tb-btn tb-btn-basket theme-login" id="gotoShopCart">
+							<a id="LikBasket" title="加入购物车"><i></i>加入购物车</a>
 						</div>
 					</li>
 				</div>
@@ -308,7 +361,7 @@
 					<a href="#"> <span class="message"></span>
 					</a>
 					<p>购物车</p>
-					<p class="cart_num">0</p>
+					<p class="cart_num">${sessionScope.shopCart.count}</p>
 				</div>
 				<div id="asset" class="item">
 					<a href="#"> <span class="view"></span>

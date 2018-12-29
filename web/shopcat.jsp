@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html >
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -19,7 +19,136 @@
 <link href="css/optstyle.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 <script type="text/javascript">
-	
+/*	$(function () {
+		var sum=0;
+		$(".sums").each(function (i) {
+			var price=parseFloat($(".prices").eq(i).val());
+			var value = parseInt($(".values").eq(i).val());
+			$(this).text((price*value).toFixed(1));
+			sum=sum+price*value
+		})
+		$("#J_Total").text(sum.toFixed(1));
+        function addCount(index){
+			var price=parseFloat($(".prices").eq(index).val());
+			var value = parseInt($(".values").eq(index).val());
+			$(".sums").eq(index).text((price*value).toFixed(1));
+			sum=sum+price;
+		}
+		function minCount(index){
+			var price=parseFloat($(".prices").eq(index).val());
+			var value = parseInt($(".values").eq(index).val());
+			$(".sums").eq(index).text((price*value).toFixed(1));
+			sum=sum-price;
+		}
+		//2.添加的点击事件
+		$(".add_btn").each(function (i) {
+			var max=parseInt($(".stock").eq(i).val());
+			//获取当前输入框的value值
+			$(this).click(function () {
+				var value = $(".values").eq(i).val();
+				//判断数量是否在合理的范围内
+				if(value < max){
+					//vlaue值为String类型,必须转换成int类型
+					$(".values").eq(i).val(parseInt(value)+1);
+					addCount(i);
+					$("#J_Total").text(sum.toFixed(1));
+				}else{
+					$(".values").eq(i).val(max);
+				}
+
+			})
+
+		})
+
+		//3.减少的点击事件
+		$(".min_btn").each(function (i) {
+			//获取当前输入框的value值
+			$(this).click(function () {
+				var value = $(".values").eq(i).val();
+				//判断数量是否在合理的范围内
+				if(value > 1){
+					//vlaue值为String类型,必须转换成int类型
+					$(".values").eq(i).val(parseInt(value)-1);
+					minCount(i);
+					$("#J_Total").text(sum.toFixed(1));
+				}else{
+					$(".values").eq(i).val(1);
+				}
+
+			})
+
+		})
+
+		//4.输入框的失去光标焦点事件
+		$(".values").each(function (i) {
+			var price=parseFloat($(".prices").eq(i).val());
+			var max=parseInt($(".stock").eq(i).val());
+			//获取当前数量
+			var oldValue = parseInt($(".values").eq(i).val());
+			$(this).blur(function () {
+				var value = parseInt($(".values").eq(i).val());
+				if(value > max){
+					$(this).val(max)
+					$(".sums").eq(i).text((price*max).toFixed(1));
+					sum=sum+(max-oldValue)*price;
+				}else if(value <1){
+					$(this).val(1);
+					$(".sums").eq(i).text((price*1).toFixed(1));
+					sum=sum-(oldValue-1)*price;
+				}else if(value>=1&&value<=max){
+					$(this).val(value)
+					$(".sums").eq(i).text((price*value).toFixed(1));
+					sum=sum+(value-oldValue)*price;
+				}
+				$("#J_Total").text(sum.toFixed(1));
+			})
+
+		})
+	})*/
+$(function () {
+	//2.添加的点击事件
+	$(".add_btn").each(function (i) {
+		var max=parseInt($(".stock").eq(i).val());
+		var id=parseInt($(".id").eq(i).val());
+		//获取当前输入框的value值
+		$(this).click(function () {
+			var value = $(".values").eq(i).val();
+			//判断数量是否在合理的范围内
+			if(value < max){
+				//vlaue值为String类型,必须转换成int类型
+				$(".values").eq(i).val(parseInt(value)+1);
+				$.post("ShopCartServlet?action=shopCart&id="+id+"&count=1",function (data) {
+					location.reload();
+				})
+			}else{
+				$(".values").eq(i).val(max);
+			}
+
+		})
+
+	})
+
+//3.减少的点击事件
+	$(".min_btn").each(function (i) {
+		//获取当前输入框的value值
+		$(this).click(function () {
+			var value = $(".values").eq(i).val();
+			var id=parseInt($(".id").eq(i).val());
+			//判断数量是否在合理的范围内
+			if (value > 1) {
+				//vlaue值为String类型,必须转换成int类型
+				$(".values").eq(i).val(parseInt(value) - 1);
+				$.post("ShopCartServlet?action=deleteOne&id="+id,function (data) {
+					location.reload();
+				})
+			} else {
+				$(".values").eq(i).val(1);
+			}
+
+		})
+	})
+})
+
 </script>
 </head>
 
@@ -71,26 +200,28 @@
 
 						<div class="clear"></div>
 						<div class="bundle-main">
+							<c:forEach items="${list}" var="info">
 						<!-- 购物车 -->
+								<input class="id" value="${info.id}" type="hidden"/>
+								<input class="stock" value="${info.goods_stock}" type="hidden"/>
 							<ul class="item-content clearfix">
-								
 								<li class="td td-item">
 									<div class="item-pic">
-										<a href="#" target="_blank" class="J_MakePoint"
+										<a href="ShopCartServlet?action=getGoodsInfo&id=${info.id}" target="_blank" class="J_MakePoint"
 											data-point="tbcart.8.12"> <img
-											src="images/"
+											src="images/${info.goods_pic}"
 											style="width: 80px; height: 80px" class="itempic J_ItemImg"></a>
 									</div>
 									<div class="item-info">
 										<div class="item-basic-info">
-											<a href="#" target="_blank" title=""
-												class="item-title J_MakePoint" data-point="tbcart.8.11">商品描述</a>
+											<a href="ShopCartServlet?action=getGoodsInfo&id=${info.id}" target="_blank" title=""
+												class="item-title J_MakePoint" data-point="tbcart.8.11">${info.goods_name}</a>
 										</div>
 									</div>
 								</li>
 								<li class="td td-info">
 									<div class="item-props item-props-can">
-
+											<span>${info.goods_description}</span>
 										<i class="theme-login am-icon-sort-desc"></i>
 									</div>
 								</li>
@@ -98,11 +229,11 @@
 									<div class="item-price price-promo-promo">
 										<div class="price-content">
 													<div class="price-line">
-														<em class="price-original">促销价</em>
+														<em class="price-original">${info.goods_price}</em>
 													</div>
 														
 													<div class="price-line">
-														<em class="J_Price price-now" tabindex="0">商品价格</em>
+														<em class="J_Price price-now" tabindex="0">${info.goods_price_off}</em>
 													</div>
 										</div>
 									</div>
@@ -111,9 +242,9 @@
 									<div class="amount-wrapper ">
 										<div class="item-amount ">
 											<div class="sl">
-												<input class="min am-btn" name="" type="button" value="-" />
-											 <input class="text_box" id="count_id" type="text" value="" style="width: 30px; text-align: center;" /> 
-												<input class="add am-btn" name="" type="button" value="+"  />
+												<input class="min am-btn min_btn" name="" type="button" value="-" />
+											 <input class="text_box values"  type="text" value="${info.count}" style="width: 30px; text-align: center;" />
+												<input class="add am-btn add_btn" name="" type="button" value="+" id="add" />
 										
 											</div>
 										</div>
@@ -121,16 +252,17 @@
 								</li>
 								<li class="td td-sum">
 									<div class="td-inner">
-										<em tabindex="0" class="J_ItemSum number" >金额</em>
+										<em tabindex="0" class="J_ItemSum number sums" ><fmt:formatNumber value="${info.sum}" pattern="0.00"></fmt:formatNumber> </em>
 									</div>
 								</li>
-								<li class="td td-op">
+								<li class="td td-op" id="delete">
 									<div class="td-inner">
-									<a href="" data-point-url="#" class="delete"> 删除</a>
+									<a href="ShopCartServlet?action=delete&id=${info.id}" data-point-url="#" class="delete"> 删除</a>
 									</div>
 								</li>
 							
 							</ul>
+							</c:forEach>
 						</div>
 					</div>
 				</tr>
@@ -141,7 +273,7 @@
 			<div class="float-bar-right">
 				<div class="amount-sum">
 					<span class="txt">已选商品</span> <em id="getnum"></em><span
-						class="txt">件</span>
+						class="txt">${sessionScope.shopCart.count}件</span>
 					<div class="arrow-box">
 						<span class="selected-items-arrow"></span> <span class="arrow"></span>
 					</div>
@@ -149,12 +281,11 @@
 				<div class="price-sum">
 					<span class="txt">合计:</span> 
 					<strong class="price">
-					¥<em id="J_Total"></em>
-					335
+					¥<em id="J_Total"><fmt:formatNumber value="${sessionScope.shopCart.sums}" pattern="0.00"></fmt:formatNumber> </em>
 					</strong>
 				</div>
 				<div class="btn-area">
-					<a href="success.jsp" id="J_Go" class="submit-btn submit-btn-disabled"
+					<a href="ShopCartServlet?action=getAddressList" id="J_Go" class="submit-btn submit-btn-disabled"
 						aria-label="请注意如果没有选择宝贝，将无法结算"> <span>结&nbsp;算</span></a>
 				</div>
 			</div>

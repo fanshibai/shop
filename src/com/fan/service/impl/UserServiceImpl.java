@@ -52,4 +52,9 @@ public class UserServiceImpl implements IUserService {
     public Integer deleteBatchObjects(String[] ids) {
         return userDao.deleteBatchObjects(ids);
     }
+
+    @Override
+    public User backLogin(String username, String password) {
+        return userDao.backLogin(username,password);
+    }
 }

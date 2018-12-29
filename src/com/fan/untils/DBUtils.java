@@ -6,6 +6,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * 数据库连接工具类
+ * 提供获取链接对象方法
+ */
 public class DBUtils {
     private static Connection connection =null;
     private static String className=null;

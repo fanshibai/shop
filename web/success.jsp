@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -29,14 +30,13 @@
    <h2>您已成功付款</h2>
    <div class="successInfo">
      <ul>
-       <li>付款金额<em>¥元</em></li>
+       <li>付款金额<em>¥<fmt:formatNumber value="${sessionScope.shopCart.sums+10}" maxFractionDigits="2"></fmt:formatNumber>元</em></li>
        <div class="user-info">
          <p>收货人：afdfdf</p>
          <p>联系电话：13678763456</p>
          <p>收货地址：dfdfdfdf</p>
        </div>
              请认真核对您的收货信息，如有错误请联系客服
-                               
      </ul>
      <div class="option">
        <span class="info">您可以</span>

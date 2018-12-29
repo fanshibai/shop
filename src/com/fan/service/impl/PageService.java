@@ -3,6 +3,9 @@ package com.fan.service.impl;
 import com.fan.dao.IBaseDao;
 import com.fan.entity.Page;
 
+/**
+ * 分页通用业务类
+ */
 public class PageService {
     public Page getPage(String current, IBaseDao baseDao,String servletName) {
         Page page=new Page();

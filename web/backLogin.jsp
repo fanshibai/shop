@@ -49,10 +49,10 @@
     <span class="systemlogo"></span> 
        
     <div class="loginbox">
-    <form action="userServlet?method=login" method="post">  
+    <form action="UserServlet?action=backLogin" method="post">
     <ul>
-    <li><input name="name" type="text" class="loginuser" /></li>
-    <li><input name="password" type="text" class="loginpwd" /></li>
+    <li><input name="username" type="text" class="loginuser" /></li>
+    <li><input name="password" type="password" class="loginpwd" /></li>
     <li><input name="" type="submit" class="loginbtn" value="登录" /><label>
     <input name="remember" type="checkbox"/>记住密码</label><label><a href="#">忘记密码？</a></label></li>
     </ul>

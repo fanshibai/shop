@@ -24,7 +24,7 @@
 						<div class="menu-hd MyShangcheng"><a href="" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 					</div>
 					<div class="topMessage mini-cart">
-						<div class="menu-hd"><a id="mc-menu-hd" href="shopcat.jsp" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">3</strong></a></div>
+						<div class="menu-hd"><a id="mc-menu-hd" href="ShopCartServlet?action=toShopCart" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">${sessionScope.shopCart.count}</strong></a></div>
 					</div>
 						<div class="topMessage my-shangcheng">
 						<div class="menu-hd"><a href="collection.jsp" target="_top"><i class="am-icon-heart am-icon-fw"></i><span><a href="">注销帐户</a></span></a></div>

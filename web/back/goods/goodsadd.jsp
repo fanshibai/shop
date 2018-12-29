@@ -40,7 +40,8 @@
                 //3.改变图片的src
                 // $("#goods_pic_ele").attr("src",fileUrl);
                 var img = document.createElement("img");
-                img.src=fileUrl;
+                $(img).attr("src",fileUrl);
+                // img.src=fileUrl;
                 var div= $("#img")
                 div.append(img);
             })
