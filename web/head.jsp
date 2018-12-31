@@ -9,9 +9,13 @@
 					<div class="topMessage">
 						<div class="menu-hd">
 						<!-- 
-							<a href="login.jsp" target="_top" class="h">${sessionUser.name},欢迎您！</a>
-						 -->
+							<a href="login.jsp" target="_top" class="h">,欢迎您！</a>
+						 --><c:if test="${sessionScope.customer.username==null}">
 							<a href="login.jsp" target="_top" class="h">亲，请登录！</a>
+							</c:if>
+							<c:if test="${sessionScope.customer.username!=null}">
+								<a>${sessionScope.customer.username},欢迎您！</a>
+							</c:if>
 							<a href="register.jsp" target="_top">免费注册</a> 
 						</div>
 					</div>

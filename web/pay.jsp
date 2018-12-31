@@ -75,8 +75,56 @@
 				$("#send").html(dizhi);
 				$("#person").html(shouhuoren);
 				$("#tel").html(dianhua);
+
+
+					//2.添加的点击事件
+					$(".add_btn").each(function (i) {
+						var max=parseInt($(".stock").eq(i).val());
+						var id=parseInt($(".id").eq(i).val());
+						//获取当前输入框的value值
+						$(this).click(function () {
+							var value = $(".values").eq(i).val();
+							//判断数量是否在合理的范围内
+							if(value < max){
+								//vlaue值为String类型,必须转换成int类型
+								$(".values").eq(i).val(parseInt(value)+1);
+								$.post("ShopCartServlet?action=shopCart&id="+id+"&count=1",function (data) {
+									location.reload();
+								})
+							}else{
+								$(".values").eq(i).val(max);
+							}
+
+						})
+
+					})
+
+//3.减少的点击事件
+					$(".min_btn").each(function (i) {
+						//获取当前输入框的value值
+						$(this).click(function () {
+							var value = $(".values").eq(i).val();
+							var id=parseInt($(".id").eq(i).val());
+							//判断数量是否在合理的范围内
+							if (value > 1) {
+								//vlaue值为String类型,必须转换成int类型
+								$(".values").eq(i).val(parseInt(value) - 1);
+								$.post("ShopCartServlet?action=deleteOne&id="+id,function (data) {
+									location.reload();
+								})
+							} else {
+								$(".values").eq(i).val(1);
+							}
+
+						})
+					})
+
 			})
-			
+			function delClick(id) {
+                $.post("ShopCartServlet?action=delAddress&id="+id,function (data) {
+                    location.reload();
+                })
+            }
 		
 			
 		</script>
@@ -116,7 +164,7 @@
 											<span class="new-addr-bar hidden">|</span>
 											<a href="#">编辑</a>
 											<span class="new-addr-bar">|</span>
-											<a href="javascript:void(0);" onclick="delClick(this);">删除</a>
+											<a href="javascript:void(0);" onclick="delClick(${address.id})">删除</a>
 										</div>
 								</li>
 							</c:forEach>
@@ -176,6 +224,8 @@
 							<div class="clear"></div>
 							
 					<c:forEach items="${sessionScope.shopCart.list}" var="infoDomain">
+						<input class="id" value="${infoDomain.id}" type="hidden"/>
+						<input class="stock" value="${infoDomain.goods_stock}" type="hidden"/>
 							<!-- 购物车 -->
 							<tr class="item-list">
 								<div class="bundle  bundle-last">
@@ -212,9 +262,9 @@
 													<div class="item-amount ">
 														<span class="phone-title">购买数量</span>
 														<div class="sl">
-															<input class="min am-btn" name="" type="button" value="-" id="jian"/> 
-															<input class="text_box" id="count" type="text" value="${infoDomain.count}" style="width: 30px; text-align: center;"/>
-													          <input class="add am-btn" name="" type="button" value="+"  id="jia"/>
+															<input class="min am-btn min_btn" name="" type="button" value="-" id="jian"/>
+															<input class="text_box values" id="count" type="text" value="${infoDomain.count}" style="width: 30px; text-align: center;"/>
+													          <input class="add am-btn add_btn" name="" type="button" value="+"  id="jia"/>
 														 <input type="hidden"  value="goodsId">
 														</div>
 													</div>

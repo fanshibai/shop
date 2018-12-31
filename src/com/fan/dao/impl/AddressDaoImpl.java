@@ -9,12 +9,15 @@ import java.util.List;
 public class AddressDaoImpl implements IAddressDao {
     @Override
     public Integer addObject(Address address) {
-        return null;
+        System.out.println(address.getUserid());
+        String sql="insert into t_address(shouhuoren,phone,address,userid) values(?,?,?,?)";
+        return DBManger.commonsUpdate(sql,address.getShouhuoren(),address.getPhone(),address.getAddress(),address.getUserid());
     }
 
     @Override
     public Integer deleteObject(Integer id) {
-        return null;
+        String sql="delete from t_address where id=?";
+        return DBManger.commonsUpdate(sql,id);
     }
 
     @Override
