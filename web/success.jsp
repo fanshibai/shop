@@ -32,9 +32,9 @@
      <ul>
        <li>付款金额<em>¥<fmt:formatNumber value="${sessionScope.shopCart.sums+10}" maxFractionDigits="2"></fmt:formatNumber>元</em></li>
        <div class="user-info">
-         <p>收货人：afdfdf</p>
-         <p>联系电话：13678763456</p>
-         <p>收货地址：dfdfdfdf</p>
+         <p>收货人：${order.o_shperson}</p>
+         <p>联系电话：${order.o_shphone}</p>
+         <p>收货地址：${order.o_shaddress}</p>
        </div>
              请认真核对您的收货信息，如有错误请联系客服
      </ul>

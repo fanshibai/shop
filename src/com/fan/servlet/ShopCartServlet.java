@@ -54,7 +54,39 @@ public class ShopCartServlet extends HttpServlet {
             case "makeOrder":
                 toMakeOrder(req,resp);
                 break;
+            case "addAddress":
+                toAddAddress(req,resp);
+                break;
+            case "delAddress":
+                toDelAddress(req,resp);
+                break;
                 
+        }
+    }
+
+    private void toDelAddress(HttpServletRequest req, HttpServletResponse resp) {
+        Integer result=0;
+        String id = req.getParameter("id");
+        result = addressService.deleteObject(Integer.parseInt(id));
+        try {
+            resp.getWriter().write(result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void toAddAddress(HttpServletRequest req, HttpServletResponse resp) {
+        Address address = ServletUtils.setAdressEntuty(req);
+        Integer result=0;
+        result = addressService.addObject(address);
+        if (result>0){
+            toGetAddressList(req,resp);
+        }else {
+            try {
+                resp.getWriter().write("<script> alert('操作失败');location.href='addAddress.jsp'</script>");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

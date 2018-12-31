@@ -74,27 +74,26 @@
 								<hr/>
 
 								<div class="am-u-md-12 am-u-lg-8" style="margin-top: 20px;">
-									<form class="am-form am-form-horizontal" action="AddressServlet?action=addAddress" method="post">
+									<form class="am-form am-form-horizontal" action="ShopCartServlet?action=addAddress" method="post">
 
 										<div class="am-form-group">
-											<label for="user-name" class="am-form-label">收货人</label>
+											<label  class="am-form-label">收货人</label>
 											<div class="am-form-content">
 												<input type="text" name="shouhuoren" placeholder="收货人">
 											</div>
 										</div>
 
 										<div class="am-form-group">
-											<label for="user-phone" class="am-form-label">手机号码</label>
+											<label  class="am-form-label">手机号码</label>
 											<div class="am-form-content">
 												<input name="phone" placeholder="手机号必填" type="text">
 											</div>
 										</div>
 
 										<div class="am-form-group">
-											<label for="user-intro" class="am-form-label">详细地址</label>
+											<label  class="am-form-label">详细地址</label>
 											<div class="am-form-content">
-												<textarea class="" rows="3" name="address" placeholder="输入详细地址"></textarea>
-												<small>100字以内写出你的详细地址...</small>
+												<input  type="text" name="address" placeholder="输入详细地址"/>
 											</div>
 										</div>
 

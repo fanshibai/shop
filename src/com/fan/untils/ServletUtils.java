@@ -13,10 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
@@ -96,6 +93,13 @@ public class ServletUtils extends HttpServlet {
         String bank = req.getParameter("bank");
         User user = (User) req.getSession().getAttribute("customer");
         return new Order(express,bank,totalMoney,user.getId(),shouhuoren,phone,address);
+    }
+    public static Address setAdressEntuty(HttpServletRequest req){
+        User user = (User) req.getSession().getAttribute("customer");
+        String address = req.getParameter("address");
+        String shouhuoren = req.getParameter("shouhuoren");
+        String phone = req.getParameter("phone");
+        return  new Address(shouhuoren,phone,address,user.getId());
     }
     public static GoodsInfo setGoodsInfoEntity(HttpServletRequest req){
         String imagesPath =req.getServletContext().getRealPath("images");

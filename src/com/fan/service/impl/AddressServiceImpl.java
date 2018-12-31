@@ -17,12 +17,12 @@ public class AddressServiceImpl implements IAddressService {
 
     @Override
     public Integer addObject(Address address) {
-        return null;
+        return addressDao.addObject(address);
     }
 
     @Override
     public Integer deleteObject(Integer id) {
-        return null;
+        return addressDao.deleteObject(id);
     }
 
     @Override

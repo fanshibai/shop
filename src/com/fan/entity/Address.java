@@ -11,6 +11,13 @@ public class Address {
     public Address() {
     }
 
+    public Address(String shouhuoren, String phone, String address, Integer userid) {
+        this.shouhuoren = shouhuoren;
+        this.phone = phone;
+        this.address = address;
+        this.userid = userid;
+    }
+
     public Address(Integer id, String shouhuoren, String phone, String address, Integer userid, Integer isdefault) {
         this.id = id;
         this.shouhuoren = shouhuoren;
