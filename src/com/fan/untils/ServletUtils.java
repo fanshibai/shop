@@ -1,5 +1,6 @@
 package com.fan.untils;
 
+import com.fan.domain.GoodsInfoDomain;
 import com.fan.entity.*;
 import com.fan.service.IBaseService;
 import org.apache.commons.beanutils.BeanUtils;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -146,4 +148,30 @@ public class ServletUtils extends HttpServlet {
         return goodsInfo;
     }
 
+    public static List<OrderDetail> setOrderDetail(List<GoodsInfoDomain> list,Integer o_orderid) {
+        List<OrderDetail> orderDetailList=new ArrayList<OrderDetail>();
+        OrderDetail orderDetail=null;
+        Integer goodsid=null;
+        String goods_name=null;
+        String goods_description=null;
+        String goods_pic=null;
+        Double goods_price=null;
+        Double goods_price_off=null;
+        Integer count=null;
+        String goods_date=DateUtils.getDate();
+        Double goods_total_price=null;
+        for (GoodsInfoDomain goodsInfoDomain:list) {
+            goodsid=goodsInfoDomain.getId();
+            goods_name=goodsInfoDomain.getGoods_name();
+            goods_description=goodsInfoDomain.getGoods_description();
+            goods_pic=goodsInfoDomain.getGoods_pic();
+            goods_price=goodsInfoDomain.getGoods_price();
+            goods_price_off=goodsInfoDomain.getGoods_price_off();
+            count=goodsInfoDomain.getCount();
+            goods_total_price=goodsInfoDomain.getSum();
+            orderDetail=new OrderDetail(goodsid,goods_name,goods_description,goods_pic,goods_price,goods_price_off,count,o_orderid,goods_total_price,goods_date);
+            orderDetailList.add(orderDetail);
+        }
+        return orderDetailList;
+    }
 }
