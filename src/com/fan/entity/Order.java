@@ -1,6 +1,5 @@
 package com.fan.entity;
 
-import java.util.Date;
 
 public class Order {
     private Integer id;

@@ -2,14 +2,8 @@ package com.fan.servlet;
 
 import com.fan.domain.GoodsInfoDomain;
 import com.fan.entity.*;
-import com.fan.service.IAddressService;
-import com.fan.service.IGoodsInfoService;
-import com.fan.service.IGoodsTypeService;
-import com.fan.service.IOrderService;
-import com.fan.service.impl.AddressServiceImpl;
-import com.fan.service.impl.GoodsInfoServiceImpl;
-import com.fan.service.impl.GoodsTypeServiceImpl;
-import com.fan.service.impl.OrderServiceImpl;
+import com.fan.service.*;
+import com.fan.service.impl.*;
 import com.fan.untils.ServletUtils;
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -26,6 +20,7 @@ public class ShopCartServlet extends HttpServlet {
     private IGoodsTypeService goodsTypeService=new GoodsTypeServiceImpl();
     private IAddressService addressService=new AddressServiceImpl();
     private IOrderService orderService=new OrderServiceImpl();
+    private IOrderDetailService orderDetailService=new OrderDetailServiceImpl();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
@@ -97,6 +92,13 @@ public class ShopCartServlet extends HttpServlet {
         req.setAttribute("totalMoney",totalMoney);
         Order order = ServletUtils.setOrderEntity(req,totalMoney);
         result = orderService.addObject(order);
+        System.out.println(order.getId());
+        if(result>0) {
+            List<OrderDetail> orderDetailList = ServletUtils.setOrderDetail(shopCart.getList(), order.getId());
+            for (OrderDetail orderDetail:orderDetailList) {
+                result=orderDetailService.addObject(orderDetail);
+            }
+        }
         if(result>0) {
             try {
                 req.setAttribute("order", order);
